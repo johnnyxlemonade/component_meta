@@ -84,6 +84,15 @@ abstract class EntityAbstract implements EntityInterface {
         return $this->tab . '<meta name="{key}" content="{val}" />';
     }
     
+        /**
+     * Standardni meta
+     * @return string
+     */
+    protected function _propertyMeta() {
+        
+        return $this->tab . '<meta property="{key}" content="{val}" />';
+    }
+    
     
     
 }
