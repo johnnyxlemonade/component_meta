@@ -16,7 +16,7 @@ final class Twitter extends EntityAbstract {
             $name = sprintf("%s - %s", $title, $this->data["appName"]);
         }
         
-        return \str_replace(["{key}", "{val}"], ["twitter:title", $name], $this->_standardMeta());
+        return \str_replace(["{key}", "{val}"], ["twitter:title", $name], $this->_propertyMeta());
     }
     
     /**
@@ -27,7 +27,7 @@ final class Twitter extends EntityAbstract {
      */
     protected function _appName(string $key, string $val = null) {
         
-        $code = str_replace(["{key}", "{val}"], ["twitter:card", "summary"], $this->_standardMeta());
+        $code = str_replace(["{key}", "{val}"], ["twitter:card", "summary"], $this->_propertyMeta());
         
         return $code;
     }
@@ -40,7 +40,7 @@ final class Twitter extends EntityAbstract {
      */
     protected function _appAuthor(string $key, string $val = null) {
         
-        return \str_replace(["{key}", "{val}"], ["twitter:creator", $val], $this->_standardMeta());
+        return \str_replace(["{key}", "{val}"], ["twitter:creator", $val], $this->_propertyMeta());
     }
     
     /**
@@ -51,7 +51,7 @@ final class Twitter extends EntityAbstract {
      */
     protected function _appImage(string $key, string $url = null) {
         
-        return \str_replace(["{key}", "{val}"], ["twitter:image", $url], $this->_standardMeta());
+        return \str_replace(["{key}", "{val}"], ["twitter:image", $url], $this->_propertyMeta());
     }
     
     /**
@@ -62,7 +62,7 @@ final class Twitter extends EntityAbstract {
      */
     protected function _appDescription(string $key, string $val = null) {
         
-        return \str_replace(["{key}", "{val}"], ["twitter:description", $val], $this->_standardMeta());
+        return \str_replace(["{key}", "{val}"], ["twitter:description", $val], $this->_propertyMeta());
     }
     
 }
