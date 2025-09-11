@@ -2,97 +2,74 @@
 
 namespace Lemonade\Meta\Entity;
 
-abstract class EntityAbstract implements EntityInterface {
-    
+abstract class EntityAbstract implements EntityInterface
+{
     /**
      * Data
-     * @var array
      */
-    protected $data = [];
-    
+    protected array $data = [];
+
     /**
      * Tab
-     * @var string
      */
-    protected $tab = "\t";
-        
+    protected string $tab = "\t";
+
     /**
-     *
-     * @param array $data
+     * Constructor
      */
     public function __construct(array $data = []) {
-        
         $this->data = $data;
     }
-    
+
     /**
-     * 
      * {@inheritDoc}
      * @see \Lemonade\Meta\Entity\EntityInterface::getOutput()
      */
-    public function getOutput(): string {
-               
-        $code = "";        
-        
-        if(!empty($this->data)) {
-            
+    public function getOutput(): string
+    {
+        $code = "";
+
+        if (!empty($this->data)) {
             $code .= PHP_EOL;
-            
-            foreach($this->data as $key => $val) {
-                                
+
+            foreach ($this->data as $key => $val) {
                 $func = \sprintf("_%s", $key);
-                       
-                if(method_exists($this, $func)) {
-                    
-                    if(is_string($val)) {
-                        
-                        if($this->_notEmpty($val)) {
-                            
-                            $code .= $this->$func($key, $val) . PHP_EOL;
-                        }                        
-                    }   
-                    
-                    if(is_array($val)) {
-                        
+
+                // Check if method exists and process value
+                if (method_exists($this, $func)) {
+                    if (is_string($val) && $this->_notEmpty($val)) {
+                        $code .= $this->$func($key, $val) . PHP_EOL;
+                    } elseif (is_array($val)) {
                         $code .= $this->$func($key, $val);
                     }
                 }
             }
-            
         }
-        
+
         return $code;
     }
-    
+
     /**
-     * Neni empty
-     * @param string $value
-     * @return boolean
+     * Check if value is not empty
      */
-    protected function _notEmpty(string $value = null) {
-    
-        return (!empty($value) && $value <> "");
+    protected function _notEmpty(?string $value): bool
+    {
+        return !empty($value);
     }
-    
-    
+
     /**
-     * Standardni meta
-     * @return string
+     * Standard meta tag
      */
-    protected function _standardMeta() {
-        
+    protected function _standardMeta(): string
+    {
         return $this->tab . '<meta name="{key}" content="{val}" />';
     }
-    
-        /**
-     * Standardni meta
-     * @return string
+
+    /**
+     * Property meta tag
      */
-    protected function _propertyMeta() {
-        
+    protected function _propertyMeta(): string
+    {
         return $this->tab . '<meta property="{key}" content="{val}" />';
     }
-    
-    
-    
 }

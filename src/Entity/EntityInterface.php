@@ -2,11 +2,16 @@
 
 namespace Lemonade\Meta\Entity;
 
-interface EntityInterface {
-    
+/**
+ * Interface pro třídy, které poskytují výstup.
+ */
+interface EntityInterface
+{
     /**
-     * Vystup
+     * Vygeneruje výstup pro daný objekt.
+     *
+     * Tato metoda by měla vracet formátovaný řetězec, který reprezentuje výstup objektu.
+     * V případě meta tagů to bude pravděpodobně HTML kód.
      */
     public function getOutput(): string;
-    
 }

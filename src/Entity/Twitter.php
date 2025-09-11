@@ -2,67 +2,56 @@
 
 namespace Lemonade\Meta\Entity;
 
-final class Twitter extends EntityAbstract {
-    
+final class Twitter extends EntityAbstract
+{
+    /**
+     * Pomocná metoda pro generování Twitter meta tagů.
+     */
+    private function generateTwitterMetaTag(string $key, ?string $val, string $metaType): string
+    {
+        return \str_replace(["{key}", "{val}"], [$metaType, $val], $this->_propertyMeta());
+    }
+
     /**
      * Title
-     * @param string $key
-     * @param string $name
-     * @return string
      */
-    protected function _appTitle(string $key, string $name = null) {
-        
-        if(!empty($title = $this->data["appTitle"])) {
-            $name = sprintf("%s - %s", $title, $this->data["appName"]);
+    protected function _appTitle(string $key, ?string $name): string
+    {
+        if (!empty($this->data["appTitle"])) {
+            $name = sprintf("%s - %s", $this->data["appTitle"], $this->data["appName"]);
         }
-        
-        return \str_replace(["{key}", "{val}"], ["twitter:title", $name], $this->_propertyMeta());
+        return $this->generateTwitterMetaTag($key, $name, "twitter:title");
     }
-    
+
     /**
      * appName
-     * @param string $key
-     * @param string $val
-     * @return mixed
      */
-    protected function _appName(string $key, string $val = null) {
-        
-        $code = str_replace(["{key}", "{val}"], ["twitter:card", "summary"], $this->_propertyMeta());
-        
-        return $code;
+    protected function _appName(string $key, ?string $val): string
+    {
+        return $this->generateTwitterMetaTag($key, "summary", "twitter:card");
     }
-    
+
     /**
      * Author
-     * @param string $key
-     * @param string $val
-     * @return mixed
      */
-    protected function _appAuthor(string $key, string $val = null) {
-        
-        return \str_replace(["{key}", "{val}"], ["twitter:creator", $val], $this->_propertyMeta());
+    protected function _appAuthor(string $key, ?string $val): string
+    {
+        return $this->generateTwitterMetaTag($key, $val, "twitter:creator");
     }
-    
+
     /**
      * Image
-     * @param string $key
-     * @param string $url
-     * @return string
      */
-    protected function _appImage(string $key, string $url = null) {
-        
-        return \str_replace(["{key}", "{val}"], ["twitter:image", $url], $this->_propertyMeta());
+    protected function _appImage(string $key, ?string $url): string
+    {
+        return $this->generateTwitterMetaTag($key, $url, "twitter:image");
     }
-    
+
     /**
      * Description
-     * @param string $key
-     * @param string $val
-     * @return mixed
      */
-    protected function _appDescription(string $key, string $val = null) {
-        
-        return \str_replace(["{key}", "{val}"], ["twitter:description", $val], $this->_propertyMeta());
+    protected function _appDescription(string $key, ?string $val): string
+    {
+        return $this->generateTwitterMetaTag($key, $val, "twitter:description");
     }
-    
 }

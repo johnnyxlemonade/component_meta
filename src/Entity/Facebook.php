@@ -2,102 +2,81 @@
 
 namespace Lemonade\Meta\Entity;
 
-final class Facebook extends EntityAbstract {
-    
+final class Facebook extends EntityAbstract
+{
+    /**
+     * Pomocná metoda pro generování og meta tagů.
+     */
+    private function generateOgMetaTag(string $key, ?string $val, string $metaType): string
+    {
+        return str_replace(["{key}", "{val}"], [$metaType, $val], $this->_propertyMeta());
+    }
+
     /**
      * Title
-     * @param string $key
-     * @param string $name
-     * @return string
      */
-    protected function _appTitle(string $key, string $name = null) {
-        
-        if(!empty($title = $this->data["appTitle"])) {
-            $name = sprintf("%s - %s", $title, $this->data["appName"]);
+    protected function _appTitle(string $key, ?string $name): string
+    {
+        if (!empty($this->data["appTitle"])) {
+            $name = sprintf("%s - %s", $this->data["appTitle"], $this->data["appName"]);
         }
-        
-        return \str_replace(["{key}", "{val}"], ["og:title", $name], $this->_propertyMeta());
+        return $this->generateOgMetaTag($key, $name, "og:title");
     }
-    
+
     /**
      * appName
-     * @param string $key
-     * @param string $val
-     * @return mixed
      */
-    protected function _appName(string $key, string $val = null) {
-        
-        $code = str_replace(["{key}", "{val}"], ["og:sitename", $val], $this->_propertyMeta()) . PHP_EOL;
-        $code .= str_replace(["{key}", "{val}"], ["og:type", "website"], $this->_propertyMeta());
-        
-        return $code;
+    protected function _appName(string $key, ?string $val): string
+    {
+        return $this->generateOgMetaTag($key, $val, "og:sitename") . PHP_EOL
+            . $this->generateOgMetaTag($key, "website", "og:type");
     }
-    
+
     /**
-     * Canonical Url
-     * @param string $key
-     * @param string $url
-     * @return string
+     * Canonical URL
      */
-    protected function _appCanonical(string $key, string $url = null) {
-        
-        return \str_replace(["{key}", "{val}"], ["og:url", $url], $this->_propertyMeta());
+    protected function _appCanonical(string $key, ?string $url): string
+    {
+        return $this->generateOgMetaTag($key, $url, "og:url");
     }
-    
+
     /**
      * Image
-     * @param string $key
-     * @param string $url
-     * @return string
      */
-    protected function _appImage(string $key, string $url = null) {
-        
-        return \str_replace(["{key}", "{val}"], ["og:image", $url], $this->_propertyMeta());
+    protected function _appImage(string $key, ?string $url): string
+    {
+        return $this->generateOgMetaTag($key, $url, "og:image");
     }
-    
+
     /**
      * Api Id
-     * @param string $key
-     * @param string $val
-     * @return mixed
      */
-    protected function _appFacebookApiId(string $key, string $val = null) {
-        
-        return \str_replace(["{key}", "{val}"], ["fb:app_id", $val], $this->_propertyMeta());
+    protected function _appFacebookApiId(string $key, ?string $val): string
+    {
+        return $this->generateOgMetaTag($key, $val, "fb:app_id");
     }
-    
+
     /**
      * Description
-     * @param string $key
-     * @param string $val
-     * @return mixed
      */
-    protected function _appDescription(string $key, string $val = null) {
-        
-        return \str_replace(["{key}", "{val}"], ["og:description", $val], $this->_propertyMeta());
+    protected function _appDescription(string $key, ?string $val): string
+    {
+        return $this->generateOgMetaTag($key, $val, "og:description");
     }
-    
+
     /**
      * Keywords
-     * @param string $key
-     * @param string $val
-     * @return mixed
      */
-    protected function _appKeywords(string $key, string $val = null) {
-        
-        return \str_replace(["{key}", "{val}"], ["og:keywords", $val], $this->_propertyMeta());
+    protected function _appKeywords(string $key, ?string $val): string
+    {
+        return $this->generateOgMetaTag($key, $val, "og:keywords");
     }
-    
+
     /**
      * Locale
-     * @param string $key
-     * @param string $val
-     * @return mixed
      */
-    protected function _appLocale(string $key, string $val = null) {
-        
-        return \str_replace(["{key}", "{val}"], ["og:locale", $val], $this->_propertyMeta());
+    protected function _appLocale(string $key, ?string $val): string
+    {
+        return $this->generateOgMetaTag($key, $val, "og:locale");
     }
-    
-    
 }
