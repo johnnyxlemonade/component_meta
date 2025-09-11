@@ -2,22 +2,20 @@
 
 namespace Lemonade\Meta;
 
-final class ApiHelper {
-    
+use function trim;
+use function str_replace;
+use function preg_replace;
+use function strip_tags;
+
+trait ApiHelper
+{
     /**
-     * Plain
-     * @param string $text
-     * @return string|NULL
+     * Clean and escape the input string.
      */
-    public static function plain(string $text = null) {
-        
-        if(!empty($text)) {
-            
-            return \trim(\str_replace('"', '&quot;', \preg_replace("/[\r\n\s]+/", " ", \strip_tags($text))));
-        }
-        
-        return null;        
+    public function plain(?string $text): ?string
+    {
+        return $text !== null && $text !== ''
+            ? trim(str_replace('"', '&quot;', preg_replace("/\s+/", " ", strip_tags($text))))
+            : null;
     }
-    
-    
 }
