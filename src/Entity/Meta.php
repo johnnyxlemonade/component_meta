@@ -1,124 +1,42 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Lemonade\Meta\Entity;
 
-final class Meta extends EntityAbstract
+use Lemonade\Meta\MetaData;
+use Lemonade\Meta\Tag\MetaTag;
+use Lemonade\Meta\Tag\LinkTag;
+use Lemonade\Meta\Tag\TitleTag;
+
+final class Meta extends AbstractMetaEntity
 {
-    /**
-     * Pomocná metoda pro generování meta tagů.
-     */
-    private function generateMetaTag(string $key, ?string $val, string $template): string
+    public function render(): string
     {
-        return \str_replace(["{key}", "{val}"], [$key, $val], $template);
-    }
+        $tags = [];
 
-    /**
-     * Charset
-     */
-    protected function _appCharset(string $key, string $charset): string
-    {
-        return $this->tab . '<meta charset="' . $charset . '">' . PHP_EOL;
-    }
+        // základní SEO tagy
+        $tags[] = new MetaTag('charset', $this->data->charset);
+        $tags[] = new TitleTag($this->data->title);
+        $tags[] = new MetaTag('description', $this->data->description);
+        $tags[] = new MetaTag('keywords', $this->data->keywords);
+        $tags[] = new MetaTag('author', $this->data->author);
+        $tags[] = new MetaTag('viewport', $this->data->viewport);
 
-    /**
-     * Title
-     */
-    protected function _appName(string $key, ?string $name): string
-    {
-        if (!empty($this->data["appTitle"])) {
-            $name = sprintf("%s - %s", $this->data["appTitle"], $name);
-        }
-        return $this->tab . '<title>' . $name . '</title>' . PHP_EOL;
-    }
+        // přidáme standardní meta tagy
+        $tags[] = new MetaTag('generator', 'Lemonade CMS [lemonadeframework.cz]');
+        $tags[] = new MetaTag('rating', 'General');
+        $tags[] = new MetaTag('web_author', 'lemonadeframework.cz');
 
-    /**
-     * Canonical URL
-     */
-    protected function _appCanonical(string $key, ?string $url): string
-    {
-        return $this->tab . '<link rel="canonical" href="' . $url . '" />';
-    }
+        // canonical tag s parametry
+        $tags[] = new LinkTag('canonical', $this->data->getCanonicalUrl());
 
-    /**
-     * Image src
-     */
-    protected function _appImage(string $key, ?string $url): string
-    {
-        return $this->tab . '<link rel="image_src" href="' . $url . '" />' . PHP_EOL;
-    }
+        // image tag
+        $tags[] = new LinkTag('image_src', $this->data->image);
 
-    /**
-     * Viewport
-     */
-    protected function _appViewport(string $key, ?string $val): string
-    {
-        return $this->generateMetaTag('viewport', $val, $this->_standardMeta());
-    }
-
-    /**
-     * Keywords
-     */
-    protected function _appKeywords(string $key, ?string $val): string
-    {
-        return $this->generateMetaTag('keywords', $val, $this->_standardMeta());
-    }
-
-    /**
-     * Description
-     */
-    protected function _appDescription(string $key, ?string $val): string
-    {
-        return $this->generateMetaTag('description', $val, $this->_standardMeta());
-    }
-
-    /**
-     * Author
-     */
-    protected function _appAuthor(string $key, ?string $val): string
-    {
-        return $this->generateMetaTag('author', $val, $this->_standardMeta());
-    }
-
-    /**
-     * Generator
-     */
-    protected function _appGenerator(string $key, ?string $val): string
-    {
-        return $this->generateMetaTag('generator', $val, $this->_standardMeta());
-    }
-
-    /**
-     * Rating
-     */
-    protected function _appRating(string $key, ?string $val): string
-    {
-        return $this->generateMetaTag('rating', $val, $this->_standardMeta());
-    }
-
-    /**
-     * Web Author
-     */
-    protected function _appWebAuthor(string $key, ?string $val): string
-    {
-        return $this->generateMetaTag('web_author', $val, $this->_standardMeta());
-    }
-
-    /**
-     * Custom meta tags
-     */
-    protected function _appCustom(string $key, array $data = []): string
-    {
-        $code = "";
-
-        if (!empty($data)) {
-            $code .= PHP_EOL;
-            foreach ($data as $key => $val) {
-                if ($this->_notEmpty($val)) {
-                    $code .= $this->generateMetaTag($key, $val, $this->_standardMeta()) . PHP_EOL;
-                }
-            }
+        // custom meta tagy (key => value)
+        foreach ($this->data->custom as $key => $value) {
+            $tags[] = new MetaTag($key, $value);
         }
 
-        return $code;
+        return $this->renderTags($tags);
     }
 }

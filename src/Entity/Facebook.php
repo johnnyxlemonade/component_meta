@@ -1,82 +1,36 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Lemonade\Meta\Entity;
 
-final class Facebook extends EntityAbstract
+use Lemonade\Meta\Tag\OpenGraphTag;
+
+final class Facebook extends AbstractMetaEntity
 {
-    /**
-     * Pomocná metoda pro generování og meta tagů.
-     */
-    private function generateOgMetaTag(string $key, ?string $val, string $metaType): string
+    public function render(): string
     {
-        return str_replace(["{key}", "{val}"], [$metaType, $val], $this->_propertyMeta());
-    }
+        $tags = [];
 
-    /**
-     * Title
-     */
-    protected function _appTitle(string $key, ?string $name): string
-    {
-        if (!empty($this->data["appTitle"])) {
-            $name = sprintf("%s - %s", $this->data["appTitle"], $this->data["appName"]);
+        // základní OG tagy
+        $tags[] = new OpenGraphTag('og:title', $this->data->title);
+        $tags[] = new OpenGraphTag('og:description', $this->data->description);
+        $tags[] = new OpenGraphTag('og:url', $this->data->getCanonicalUrl());
+        $tags[] = new OpenGraphTag('og:image', $this->data->image);
+        $tags[] = new OpenGraphTag('og:locale', $this->data->custom['og:locale'] ?? 'cs_CZ');
+        $tags[] = new OpenGraphTag('og:type', $this->data->custom['og:type'] ?? 'website');
+
+        // Přidání Facebook App ID, pokud je nastaveno
+        if (!empty($this->data->custom['fb:app_id'])) {
+            $tags[] = new OpenGraphTag('fb:app_id', $this->data->custom['fb:app_id']);
         }
-        return $this->generateOgMetaTag($key, $name, "og:title");
-    }
 
-    /**
-     * appName
-     */
-    protected function _appName(string $key, ?string $val): string
-    {
-        return $this->generateOgMetaTag($key, $val, "og:sitename") . PHP_EOL
-            . $this->generateOgMetaTag($key, "website", "og:type");
-    }
+        // Dynamické přidání dalších custom tagů, pokud existují
+        foreach ($this->data->custom as $key => $value) {
+            // Předpokládáme, že všechny custom tagy jsou OG tagy
+            if (strpos($key, 'og:') === 0 && !empty($value)) {
+                $tags[] = new OpenGraphTag($key, $value);
+            }
+        }
 
-    /**
-     * Canonical URL
-     */
-    protected function _appCanonical(string $key, ?string $url): string
-    {
-        return $this->generateOgMetaTag($key, $url, "og:url");
-    }
-
-    /**
-     * Image
-     */
-    protected function _appImage(string $key, ?string $url): string
-    {
-        return $this->generateOgMetaTag($key, $url, "og:image");
-    }
-
-    /**
-     * Api Id
-     */
-    protected function _appFacebookApiId(string $key, ?string $val): string
-    {
-        return $this->generateOgMetaTag($key, $val, "fb:app_id");
-    }
-
-    /**
-     * Description
-     */
-    protected function _appDescription(string $key, ?string $val): string
-    {
-        return $this->generateOgMetaTag($key, $val, "og:description");
-    }
-
-    /**
-     * Keywords
-     */
-    protected function _appKeywords(string $key, ?string $val): string
-    {
-        return $this->generateOgMetaTag($key, $val, "og:keywords");
-    }
-
-    /**
-     * Locale
-     */
-    protected function _appLocale(string $key, ?string $val): string
-    {
-        return $this->generateOgMetaTag($key, $val, "og:locale");
+        return $this->renderTags($tags);
     }
 }
