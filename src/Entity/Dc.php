@@ -11,7 +11,7 @@ final class Dc extends AbstractMetaEntity
         $tags = [];
 
         // DC metatags
-        $tags[] = new DcTag('title', $this->data->title);
+        $tags[] = new DcTag('title', $this->data->getTitle());
         $tags[] = new DcTag('description', $this->data->description);
         $tags[] = new DcTag('keywords', $this->data->keywords);
         $tags[] = new DcTag('creator', $this->data->author);

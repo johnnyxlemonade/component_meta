@@ -11,7 +11,7 @@ final class Facebook extends AbstractMetaEntity
         $tags = [];
 
         // základní OG tagy
-        $tags[] = new OpenGraphTag('og:title', $this->data->title);
+        $tags[] = new OpenGraphTag('og:title', $this->data->getTitle());
         $tags[] = new OpenGraphTag('og:description', $this->data->description);
         $tags[] = new OpenGraphTag('og:url', $this->data->getCanonicalUrl());
         $tags[] = new OpenGraphTag('og:image', $this->data->image);

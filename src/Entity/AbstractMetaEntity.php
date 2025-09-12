@@ -5,14 +5,11 @@ namespace Lemonade\Meta\Entity;
 use Lemonade\Meta\MetaData;
 use Lemonade\Meta\Tag\TagInterface;
 
-abstract class AbstractMetaEntity
+abstract class AbstractMetaEntity implements MetaEntityInterface
 {
-    protected MetaData $data;
-
-    public function __construct(MetaData $data)
-    {
-        $this->data = $data;
-    }
+    public function __construct(
+        protected readonly MetaData $data
+    ) {}
 
     protected function renderTags(array $tags): string
     {
@@ -21,6 +18,4 @@ abstract class AbstractMetaEntity
 
         return implode(PHP_EOL, $html) . PHP_EOL;
     }
-
-    abstract public function render(): string;
 }

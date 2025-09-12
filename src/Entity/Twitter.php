@@ -12,7 +12,7 @@ final class Twitter extends AbstractMetaEntity
 
         // základní Twitter Card
         $tags[] = new TwitterTag('twitter:card', $this->data->custom['twitter:card'] ?? 'summary');
-        $tags[] = new TwitterTag('twitter:title', $this->data->title);
+        $tags[] = new TwitterTag('twitter:title', $this->data->getTitle());
         $tags[] = new TwitterTag('twitter:description', $this->data->description);
         $tags[] = new TwitterTag('twitter:image', $this->data->image);
 

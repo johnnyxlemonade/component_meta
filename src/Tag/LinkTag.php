@@ -2,21 +2,10 @@
 
 namespace Lemonade\Meta\Tag;
 
-final class LinkTag implements TagInterface
+final class LinkTag extends AbstractTag
 {
-    use HtmlAttributeTrait;
-
-    public function __construct(
-        private string $rel,
-        private ?string $href
-    ) {}
-
-    public function render(): string
+    protected function template(): string
     {
-        return $this->renderTagWithAttribute(
-            '<link rel="%s" href="%s">',
-            $this->rel,
-            $this->href
-        );
+        return '<link rel="%s" href="%s">';
     }
 }

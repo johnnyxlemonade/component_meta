@@ -2,42 +2,34 @@
 
 namespace Lemonade\Meta;
 
+use Stringable;
 use Lemonade\Meta\Entity\Meta;
 use Lemonade\Meta\Entity\Facebook;
 use Lemonade\Meta\Entity\Twitter;
 use Lemonade\Meta\Entity\Dc;
+use Lemonade\Meta\Entity\MetaEntityInterface;
 
-final class MetaFactory
+final class MetaFactory implements Stringable
 {
-    private MetaData $data;
+    /** @var MetaEntityInterface[] */
+    private array $entities;
 
-    public function __construct(MetaData $data)
-    {
-        $this->data = $data;
-    }
-
-    public function setDynamicTitle(): void
-    {
-        if (!empty($this->data->title)) {
-            $this->data->title = $this->data->title . ' - ' . $this->data->websiteName;
-        } else {
-            $this->data->title = $this->data->websiteName;
-        }
+    public function __construct(
+        protected readonly MetaData $data
+    ) {
+        $this->entities = [
+            new Meta($data),
+            new Facebook($data),
+            new Twitter($data),
+            new Dc($data),
+        ];
     }
 
     public function toHtml(): string
     {
-        $html = PHP_EOL;
-
-        // Předáváme parametr $indentTags do jednotlivých tříd
-        $html .= (new Meta($this->data))->render();
-        $html .= (new Facebook($this->data))->render();
-        $html .= (new Twitter($this->data))->render();
-        $html .= (new Dc($this->data))->render();
-
-        $html .= PHP_EOL;
-
-        return $html;
+        return PHP_EOL
+            . implode('', array_map(fn($entity) => $entity->render(), $this->entities))
+            . PHP_EOL;
     }
 
     public function __toString(): string

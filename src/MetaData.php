@@ -40,4 +40,14 @@ final class MetaData
         $queryParams = http_build_query($this->extraParams);
         return $this->canonical . '?' . $queryParams;
     }
+
+    // vrátí dynamický title s názvem webu
+    public function getTitle(): string
+    {
+        if (!empty($this->title)) {
+            return $this->title . ' - ' . $this->websiteName;
+        }
+
+        return $this->websiteName ?? '';
+    }
 }

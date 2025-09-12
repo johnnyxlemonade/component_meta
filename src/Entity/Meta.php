@@ -15,11 +15,12 @@ final class Meta extends AbstractMetaEntity
 
         // základní SEO tagy
         $tags[] = new MetaTag('charset', $this->data->charset);
-        $tags[] = new TitleTag($this->data->title);
+        $tags[] = new TitleTag($this->data->getTitle());
         $tags[] = new MetaTag('description', $this->data->description);
         $tags[] = new MetaTag('keywords', $this->data->keywords);
         $tags[] = new MetaTag('author', $this->data->author);
         $tags[] = new MetaTag('viewport', $this->data->viewport);
+        $tags[] = new MetaTag('robots', $this->data->robots);
 
         // přidáme standardní meta tagy
         $tags[] = new MetaTag('generator', 'Lemonade CMS [lemonadeframework.cz]');

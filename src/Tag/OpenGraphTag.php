@@ -2,21 +2,10 @@
 
 namespace Lemonade\Meta\Tag;
 
-final class OpenGraphTag implements TagInterface
+final class OpenGraphTag extends AbstractTag
 {
-    use HtmlAttributeTrait;
-
-    public function __construct(
-        private string $property,
-        private ?string $content
-    ) {}
-
-    public function render(): string
+    protected function template(): string
     {
-        return $this->renderTagWithAttribute(
-            '<meta property="%s" content="%s">',
-            $this->property,
-            $this->content
-        );
+        return '<meta property="%s" content="%s">';
     }
 }

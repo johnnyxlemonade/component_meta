@@ -2,21 +2,10 @@
 
 namespace Lemonade\Meta\Tag;
 
-final class TwitterTag implements TagInterface
+final class TwitterTag extends AbstractTag
 {
-    use HtmlAttributeTrait;
-
-    public function __construct(
-        private string $name,
-        private ?string $content
-    ) {}
-
-    public function render(): string
+    protected function template(): string
     {
-        return $this->renderTagWithAttribute(
-            '<meta name="%s" content="%s">',
-            $this->name,
-            $this->content
-        );
+        return '<meta name="%s" content="%s">';
     }
 }
