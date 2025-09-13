@@ -2,6 +2,8 @@
 
 [![Packagist](https://img.shields.io/packagist/v/lemonade/component_meta.svg)](https://packagist.org/packages/lemonade/component_meta)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+![PHP Version](https://img.shields.io/badge/php-8.1%20--%208.4-blue)
+[![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)](vendor/bin/phpunit)
 
 Lightweight OOP component for generating SEO & social meta tags (HTML `<meta>`, OpenGraph, Twitter Cards, DC tags, …) in Lemonade Framework projects.
 
@@ -63,6 +65,18 @@ echo $metaFactory;
 
 ## 📖 Changelog
 All notable changes are documented in the [CHANGELOG.md](CHANGELOG.md).
+
+## 🧪 Running Tests
+
+This package includes a full PHPUnit test suite.  
+To run tests locally, install dev dependencies and run:
+
+```bash
+  
+  composer install
+  vendor/bin/phpunit
+  vendor/bin/phpunit -c vendor/lemonade/component_meta/phpunit.xml --bootstrap vendor/autoload.php
+```
 
 ## 📜 License
 Released under the [MIT License](LICENSE).  

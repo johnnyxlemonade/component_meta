@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.1] - 2025-09-13
+### Added
+- Unit tests for all tag classes and core entities:
+    - `MetaTag`, `OpenGraphTag`, `TwitterTag`, `DcTag`, `LinkTag`, `TitleTag`
+    - `MetaData` and `MetaFactory`
+
+---
+
 ## [2.0.0] - 2025-09-12
 ### Changed
 - Refactored tag classes:
