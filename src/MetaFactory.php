@@ -18,10 +18,10 @@ final class MetaFactory implements Stringable
         protected readonly MetaData $data
     ) {
         $this
-            ->addEntity(new Meta($this->data), 20)
-            ->addEntity(new Dc($this->data), 10)
+            ->addEntity(new Meta($this->data), 10)
+            ->addEntity(new Dc($this->data), 20)
             ->addEntity(new Facebook($this->data), 30)
-            ->addEntity(new Twitter($this->data), 30);
+            ->addEntity(new Twitter($this->data), 40);
     }
 
     public function addEntity(MetaEntityInterface $entity, int $priority = 0): self
