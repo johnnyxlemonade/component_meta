@@ -11,6 +11,9 @@ abstract class AbstractMetaEntity implements MetaEntityInterface
         protected readonly MetaData $data
     ) {}
 
+    /**
+     * @param TagInterface[] $tags
+     */
     protected function renderTags(array $tags): string
     {
         $html = array_map(fn(TagInterface $tag) => $tag->render(), $tags);

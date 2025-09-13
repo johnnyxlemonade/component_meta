@@ -66,16 +66,22 @@ echo $metaFactory;
 ## 📖 Changelog
 All notable changes are documented in the [CHANGELOG.md](CHANGELOG.md).
 
-## 🧪 Running Tests
+## 🧪 Development & Testing
+This package is fully covered by PHPUnit tests and verified with **PHPStan Level 10**.
 
-This package includes a full PHPUnit test suite.  
-To run tests locally, install dev dependencies and run:
+Run PHPUnit tests:
 
 ```bash
-  
-  composer install
-  vendor/bin/phpunit
-  vendor/bin/phpunit -c vendor/lemonade/component_meta/phpunit.xml --bootstrap vendor/autoload.php
+
+composer install
+vendor/bin/phpunit
+vendor/bin/phpunit -c vendor/lemonade/component_meta/phpunit.xml --bootstrap vendor/autoload.php
+```
+
+Run static analysis:
+
+```bash
+  composer phpstan
 ```
 
 ## 📜 License

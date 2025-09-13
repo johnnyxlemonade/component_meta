@@ -4,6 +4,10 @@ namespace Lemonade\Meta;
 
 final class MetaData
 {
+    /**
+     * @param array<string, string|null> $custom
+     * @param array<string, string|null>|null $extraParams
+     */
     public function __construct(
         public string $charset = "UTF-8",
         public string $viewport = "width=device-width, initial-scale=1",
@@ -16,7 +20,6 @@ final class MetaData
         public ?string $robots = null,
         public ?string $canonical = null,
         public ?string $image = null,
-        /** @var array<string,string|null> */
         public array $custom = [],
         public ?array $extraParams = null
     ) {}

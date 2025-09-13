@@ -3,6 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use Lemonade\Meta\MetaData;
 use Lemonade\Meta\MetaFactory;
+use Lemonade\Meta\Entity\MetaEntityInterface;
 
 final class MetaFactoryTest extends TestCase
 {
@@ -29,5 +30,43 @@ final class MetaFactoryTest extends TestCase
         $factory = new MetaFactory($data);
 
         $this->assertSame($factory->toHtml(), (string)$factory);
+    }
+
+    public function testAddEntityAddsCustomEntity(): void
+    {
+        $data = new MetaData(websiteName: 'TestSite');
+        $factory = new MetaFactory($data);
+
+        $customEntity = new class implements MetaEntityInterface {
+            public function render(): string
+            {
+                return '<meta name="foo" content="bar">' . PHP_EOL;
+            }
+        };
+
+        $factory->addEntity($customEntity, 99);
+        $html = $factory->toHtml();
+
+        $this->assertStringContainsString('<meta name="foo" content="bar">', $html);
+    }
+
+    public function testRemoveEntityRemovesPreviouslyAddedEntity(): void
+    {
+        $data = new MetaData(websiteName: 'TestSite');
+        $factory = new MetaFactory($data);
+
+        $customEntity = new class implements MetaEntityInterface {
+            public function render(): string
+            {
+                return '<meta name="foo" content="bar">' . PHP_EOL;
+            }
+        };
+
+        $factory->addEntity($customEntity, 99);
+        $factory->removeEntity($customEntity::class);
+
+        $html = $factory->toHtml();
+
+        $this->assertStringNotContainsString('<meta name="foo" content="bar">', $html);
     }
 }

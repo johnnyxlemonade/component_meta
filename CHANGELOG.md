@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.1.0] - 2025-09-13
+### Added
+- `MetaFactory::addEntity()` for registering custom meta entities with priority
+- `MetaFactory::removeEntity()` for unregistering previously added entities
+- Unit tests for entity management methods
+- `phpstan.neon.dist` configuration (level 10)
+
+### Changed
+- Improved type safety in `MetaData` constructor (`array<string, string|null>` for `custom` and `extraParams`)
+- Improved PHPDoc and typing in `AbstractMetaEntity::renderTags()`
+- Updated `composer.json` with dev dependencies (`phpstan`, `phpstan-strict-rules`) and convenient scripts
+
+---
 ## [2.0.1] - 2025-09-13
 ### Added
 - Unit tests for all tag classes and core entities:
