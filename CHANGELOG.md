@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.2.0] - 2025-09-30
+### Added
+- New `AlternateLinkTag` entity for rendering `<link rel="alternate" hreflang="...">`
+- `MetaData::alternates` property for defining language variants
+- Automatic generation of alternate links
+- Support for `x-default` fallback
+
+### Changed
+- `Meta` entity now includes alternate link rendering alongside canonical and image_src
+
+
 ## [2.1.0] - 2025-09-13
 ### Added
 - `MetaFactory::addEntity()` for registering custom meta entities with priority
