@@ -3,6 +3,7 @@
 namespace Lemonade\Meta\Entity;
 
 use Lemonade\Meta\MetaData;
+use Lemonade\Meta\Tag\AlternateLinkTag;
 use Lemonade\Meta\Tag\MetaTag;
 use Lemonade\Meta\Tag\LinkTag;
 use Lemonade\Meta\Tag\TitleTag;
@@ -32,6 +33,13 @@ final class Meta extends AbstractMetaEntity
 
         // image tag
         $tags[] = new LinkTag('image_src', $this->data->image);
+
+        // alternate hreflang
+        if (!empty($this->data->alternates)) {
+            foreach ($this->data->alternates as $lang => $url) {
+                $tags[] = new AlternateLinkTag($lang, $url);
+            }
+        }
 
         // custom meta tagy (key => value)
         foreach ($this->data->custom as $key => $value) {

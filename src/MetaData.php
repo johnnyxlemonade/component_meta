@@ -7,6 +7,7 @@ final class MetaData
     /**
      * @param array<string, string|null> $custom
      * @param array<string, string|null>|null $extraParams
+     * @param array<string, string>|null $alternates
      */
     public function __construct(
         public string $charset = "UTF-8",
@@ -21,7 +22,8 @@ final class MetaData
         public ?string $canonical = null,
         public ?string $image = null,
         public array $custom = [],
-        public ?array $extraParams = null
+        public ?array $extraParams = null,
+        public ?array $alternates = null,
     ) {}
 
     // Přidání parametrů do canonical URL
